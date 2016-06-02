@@ -1,0 +1,3 @@
+ENV_NAME=admin-service
+PROJ_NAME=iiws_src
+ENV_TYPE=demo

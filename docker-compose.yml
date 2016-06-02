@@ -1,0 +1,35 @@
+version: '2'
+services:
+  mysql:
+    build: ./db/
+    volumes:
+      - ./data/db:/var/lib/mysql
+    env_file:
+      - ./config/db/env
+  redis:
+    image: frodenas/redis
+    env_file:
+      - ./config/redis/env
+  mongodb:
+    image: tutum/mongodb:latest
+  activemq:
+    image: webcenter/activemq:latest
+  admin-service:
+    image: reg.zbx.space/library/admin-service:latest
+    volumes:
+      - ./data/app:/opt/appdata
+    env_file:
+      - ./config/app/admin-service/env
+    depends_on:
+      - mysql
+      - redis
+      - mongodb
+      - activemq
+  proxy:
+    image: www.zbx.space/frontend-nginx:latest
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    depends_on:
+      - admin-service

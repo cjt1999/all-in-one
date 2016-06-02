@@ -1,0 +1,234 @@
+# For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+#   * Official Russian Documentation: http://nginx.org/ru/docs/
+
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+        listen       80 default_server;
+        #listen       [::]:80 default_server;
+        server_name  admin;
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location /admin-service/ {
+            error_page 405 =200 $1;
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://admin-service:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+
+        location /product-base-commu/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://product-base-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /foundation-frs-commu/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://foundation-frs-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /foundation-rule-commu/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://foundation-rule-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /scenario-commu/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://scenario-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /security-admin/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://security-admin:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /customer-commu/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://customer-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /bcp-commu/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://bcp-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /newbiz/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://newbiz:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+        location /newbiz-offline-commu/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://newbiz-offline-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /batch-admin/ {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://batch-admin:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /mcas-admin {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://mcas-admin:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        location /doc-commu {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://doc-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+        location /cms-commu {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://cms-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+        location /web-admin-commu {
+            location ~  .+\.(?:jsp|do) {
+                proxy_pass http://web-admin-commu:8080;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_http_version 1.1;
+                proxy_set_header Connection "";
+            }
+        }
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+
+    }
+
+
+}

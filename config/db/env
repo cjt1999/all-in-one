@@ -1,0 +1,4 @@
+MYSQL_ROOT_PASSWORD=root123
+MYSQL_DATABASE=wift_iiws_tst
+MYSQL_USER=wift_iiws_tst
+MYSQL_PASSWORD=Wift_iiws_tst_15
